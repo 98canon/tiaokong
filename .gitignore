@@ -1,2 +1,3 @@
 _archive/
 *.log
+.claude/
