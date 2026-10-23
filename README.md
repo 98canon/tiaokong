@@ -3,7 +3,14 @@
 OpenCode 的 skill：主会话担任总控，按指定方案把开发任务派给子代理，负责启用自检、规划、派单、选档位、并发、验证层级、多路审查、提交和汇报。
 
 ## 安装
-1. 把本仓库放到任意目录，再在 `~/.config/opencode/skills/` 下建一个名为 `调控师` 的目录联接指向它（Windows：`mklink /J`），或直接复制过去。
+
+仓库地址：<https://github.com/98canon/tiaokongshi>
+
+```
+git clone https://github.com/98canon/tiaokongshi.git
+```
+
+1. 把克隆下来的目录放到任意位置，再在 `~/.config/opencode/skills/` 下建一个名为 `调控师` 的目录联接指向它（Windows：`mklink /J`），或直接复制过去。仓库名是 `tiaokongshi`，联接名仍用 `调控师`。
 2. 按 `templates/本机配置.example.md` 写一份 `~/.config/opencode/调控师-本机.md`。
 3. 每个要用的项目，按 `templates/项目档案.md` 写一份项目档案（放在项目仓库以外），登记到本机配置里。
 
