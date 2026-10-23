@@ -28,3 +28,11 @@ git clone https://github.com/98canon/tiaokongshi.git
 
 ## 改动规则
 规则本体在运行中不修改。改动先记进 `待合入.md`，用户同意后再改，升 `VERSION`，写 `CHANGELOG.md`，提交。
+
+## 许可
+
+[知识共享 署名-非商业性使用 4.0 国际](https://creativecommons.org/licenses/by-nc/4.0/deed.zh-Hans)（CC BY-NC 4.0）。协议全文在 `LICENSE`。
+
+- 可以复制，也可以在此基础上修改和使用。
+- 不可以用于商业目的。
+- 再发布时保留署名，并标明是否修改过。
