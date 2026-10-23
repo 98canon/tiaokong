@@ -7,7 +7,7 @@
     [int]$TimeoutSec = 2400,
     [string]$FollowUp = ''
 )
-$W = if ($env:TIAOKONG_WORKROOT) { $env:TIAOKONG_WORKROOT } else { 'G:\agy-work' }  # 工作目录，见本机配置
+$W = if ($env:TIAOKONG_WORKROOT) { $env:TIAOKONG_WORKROOT } else { throw 'no work root: set TIAOKONG_WORKROOT or add it to the local config' }  # 工作目录，见本机配置
 # 在沙盒里运行一次 agy：派单复制成 TASK.md，-p 只传一句短英文；TEMP 指到 G 盘；输出写进 G:\agy-work\logs\<Id>.log
 $sandbox = "$W\sandboxes\$Id"
 if (-not $PromptFile) { $PromptFile = "$W\dispatch\$Id.md" }

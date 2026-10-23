@@ -3,7 +3,7 @@
     [Parameter(Mandatory = $true)][string]$Project,
     [Parameter(Mandatory = $true)][string[]]$Allowed
 )
-$W = if ($env:TIAOKONG_WORKROOT) { $env:TIAOKONG_WORKROOT } else { 'G:\agy-work' }  # 工作目录，见本机配置
+$W = if ($env:TIAOKONG_WORKROOT) { $env:TIAOKONG_WORKROOT } else { throw 'no work root: set TIAOKONG_WORKROOT or add it to the local config' }  # 工作目录，见本机配置
 # 把审过的文件从沙盒拷回项目。只拷 -Allowed 列出的相对路径；项目里的文件在建沙盒后被改过就拒绝。
 $ErrorActionPreference = 'Stop'
 $a = "$W\sandboxes\$Id"; $o = "$W\sandboxes\$Id.orig"

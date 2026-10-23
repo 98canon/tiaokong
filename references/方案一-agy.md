@@ -1,6 +1,6 @@
 # 方案一：Antigravity CLI（agy）做子代理
 
-agy 不在 OpenCode 里跑，所以本方案要建 G 盘沙盒、审过再拷回，并给用户监控命令。脚本在本 skill 的 `scripts/` 下（下文写作 `<scripts>`）。工作目录见本机配置（下文写作 `<工作目录>`，默认 `G:\agy-work`），下有 `sandboxes`、`tmp`、`dispatch`、`logs`，每轮用完清空。下文出现的 `G:\agy-work` 都指 `<工作目录>`。
+agy 不在 OpenCode 里跑，所以本方案要建 G 盘沙盒、审过再拷回，并给用户监控命令。脚本在本 skill 的 `scripts/` 下（下文写作 `<scripts>`）。工作目录见本机配置（下文写作 `<工作目录>`），下有 `sandboxes`、`tmp`、`dispatch`、`logs`，每轮用完清空。脚本从环境变量 `TIAOKONG_WORKROOT` 取这个路径，没设就停下来问。下文出现的 `G:\agy-work` 都是举例，实际指 `<工作目录>`。
 
 ## 一、模型和档位
 

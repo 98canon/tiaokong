@@ -1,7 +1,7 @@
 ﻿# Live monitor for agy dispatches: follows every G:\agy-work\logs\*.log and prints one readable line per event.
 # Usage: powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\.config\opencode\skills\调控师\scripts\watch-agy.ps1"     (Ctrl+C to stop)
 param([string]$LogDir = '', [int]$FromEndLines = 5)
-$W = if ($env:TIAOKONG_WORKROOT) { $env:TIAOKONG_WORKROOT } else { 'G:\agy-work' }  # 工作目录，见本机配置
+$W = if ($env:TIAOKONG_WORKROOT) { $env:TIAOKONG_WORKROOT } else { throw 'no work root: set TIAOKONG_WORKROOT or add it to the local config' }  # 工作目录，见本机配置
 if (-not $LogDir) { $LogDir = "$W\logs" }
 [Console]::OutputEncoding = [Text.Encoding]::UTF8
 $pos = @{}

@@ -5,7 +5,7 @@
     [string[]]$Files = @(),
     [string]$RulesFile = ''
 )
-$W = if ($env:TIAOKONG_WORKROOT) { $env:TIAOKONG_WORKROOT } else { 'G:\agy-work' }  # 工作目录，见本机配置
+$W = if ($env:TIAOKONG_WORKROOT) { $env:TIAOKONG_WORKROOT } else { throw 'no work root: set TIAOKONG_WORKROOT or add it to the local config' }  # 工作目录，见本机配置
 # 把项目的指定目录和文件复制到 G:\agy-work\sandboxes\<Id>，另存 <Id>.orig 作为改动前快照。
 # 不复制 .env、真实数据、虚拟环境、.git：只复制 -Dirs 和 -Files 列出的内容。
 # AGENTS.md = agy 沙盒规则 + 子代理通用守则 + 项目规则文件（-RulesFile）

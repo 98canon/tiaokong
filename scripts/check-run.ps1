@@ -1,5 +1,5 @@
 ﻿param([Parameter(Mandatory = $true)][string]$Id)
-$W = if ($env:TIAOKONG_WORKROOT) { $env:TIAOKONG_WORKROOT } else { 'G:\agy-work' }  # 工作目录，见本机配置
+$W = if ($env:TIAOKONG_WORKROOT) { $env:TIAOKONG_WORKROOT } else { throw 'no work root: set TIAOKONG_WORKROOT or add it to the local config' }  # 工作目录，见本机配置
 # agy 跑完后的机械核对：结果和被拒操作、沙盒外的工具调用、相对 .orig 的改动文件
 $a = "$W\sandboxes\$Id"; $o = "$W\sandboxes\$Id.orig"
 $results = Get-Content "$W\logs\$Id.log" -Encoding utf8 | Where-Object { $_ -match '"event":"result"' } | ForEach-Object {

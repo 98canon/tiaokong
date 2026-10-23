@@ -1,5 +1,5 @@
 ﻿param([string]$ArchiveDir = '')
-$W = if ($env:TIAOKONG_WORKROOT) { $env:TIAOKONG_WORKROOT } else { 'G:\agy-work' }  # 工作目录，见本机配置
+$W = if ($env:TIAOKONG_WORKROOT) { $env:TIAOKONG_WORKROOT } else { throw 'no work root: set TIAOKONG_WORKROOT or add it to the local config' }  # 工作目录，见本机配置
 # 一轮 agy 任务结束后的清理：按 G:\agy-work\logs 里记下的 conversation_id 删 agy 的会话残留，
 # 删任务启动前后 5 秒内新建的 agy 日志、崩溃和隐式记录，删 last_conversations.json 里沙盒路径的项，
 # 清空沙盒和临时目录。日志移到 -ArchiveDir（不给就移到 G:\agy-work\logs\_done\<时间>）。
