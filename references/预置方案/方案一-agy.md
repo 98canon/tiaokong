@@ -1,6 +1,6 @@
 # 方案一：Antigravity CLI（agy）做子代理
 
-agy 不在 OpenCode 里跑，所以本方案要建 G 盘沙盒、审过再拷回，并给用户监控命令。脚本在本 skill 的 `scripts/` 下（下文写作 `<scripts>`）。工作目录见本机配置（下文写作 `<工作目录>`），下有 `sandboxes`、`tmp`、`dispatch`、`logs`，每轮用完清空。脚本从环境变量 `TIAOKONG_WORKROOT` 取这个路径，没设就停下来问。下文出现的 `G:\agy-work` 都是举例，实际指 `<工作目录>`。
+agy 不在 OpenCode 里跑，所以要在本机配置的工作目录里建沙盒、审过再拷回，并给用户监控命令。不指定盘符。脚本在本 skill 的 `scripts/` 下（下文写作 `<scripts>`）。工作目录见本机配置（下文写作 `<工作目录>`），下有 `sandboxes`、`tmp`、`dispatch`、`logs`，每轮用完清空。脚本从环境变量 `TIAOKONG_WORKROOT` 取这个路径，没设就停下来问。
 
 ## 一、模型和档位
 
@@ -33,7 +33,7 @@ agy 不在 OpenCode 里跑，所以本方案要建 G 盘沙盒、审过再拷回
 - 权限配置实际从哪个文件读：启动日志 `~/.gemini/antigravity-cli/log/cli-*.log` 里搜 `stored shared config permissions`。实测读的是 `~/.gemini/config/config.json` 的 `userSettings.globalPermissionGrants`。
 - 项目档案里列的 agy 允许命令，是否都已在 allow 里。
 - `config.json` 里的 `nonWorkspaceFileAccessPolicy`：是 ALLOW 时，agy 能读工作区以外的文件，要在自检报告里提示，并建议加 `read_file` 的 deny 规则保护密钥文件。
-- `G:\agy-work\sandboxes`、`tmp`、`logs` 是空的（上一轮已清理）。
+- `<工作目录>\sandboxes`、`tmp`、`logs` 是空的（上一轮已清理）。
 
 ## 三、一批的流程
 
@@ -42,7 +42,7 @@ agy 不在 OpenCode 里跑，所以本方案要建 G 盘沙盒、审过再拷回
    & '<scripts>\new-sandbox.ps1' -Id <任务> -Project <项目目录> -Dirs <目录...> -Files <文件...> -RulesFile <项目规则文件>
    ```
    `AGENTS.md` 会自动由 `templates/agy-AGENTS.md`、`规则/子代理通用守则.md`、项目规则文件三段拼成，派单里不用再让它读这几份。审查派单另附 `规则/审查标准.md` 和项目审查补充（复制进 `_ctx\`）。批次材料（预调研、决定、方案摘录）复制进沙盒的 `_ctx\`，并同步复制进 `<任务>.orig\_ctx\`，免得核对时被当成改动。
-2. 写派单到 `G:\agy-work\dispatch\<任务>.md`（按 `templates/派单.md`，报告写沙盒根目录的 REPORT.md）。
+2. 写派单到 `<工作目录>\dispatch\<任务>.md`（按 `templates/派单.md`，报告写沙盒根目录的 REPORT.md）。
 3. 派出（后台运行，等完成通知，不轮询）：
    ```powershell
    & '<scripts>\run-agy.ps1' -Id <任务> -Model <模型ID> [-Effort <档位>] -TimeoutSec 3600
@@ -67,7 +67,7 @@ agy 不在 OpenCode 里跑，所以本方案要建 G 盘沙盒、审过再拷回
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\.config\opencode\skills\调控师\scripts\watch-agy.ps1"
 ```
-它持续跟随 `G:\agy-work\logs` 下的日志，每个动作一行：时间、任务、读文件（灰）、改文件（紫）、跑命令（黄）、出错（红）、结果（绿，含耗时、用量和被拒操作）；窗口标题显示正在运行的 agy 数量。
+它持续跟随 `<工作目录>\logs` 下的日志，每个动作一行：时间、任务、读文件（灰）、改文件（紫）、跑命令（黄）、出错（红）、结果（绿，含耗时、用量和被拒操作）；窗口标题显示正在运行的 agy 数量。
 
 ## 六、清理的边界
 
