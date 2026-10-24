@@ -11,7 +11,7 @@ git clone https://github.com/98canon/tiaokongshi.git
 ```
 
 1. 把克隆下来的目录放到任意位置，再在 `~/.config/opencode/skills/` 下建一个名为 `调控师` 的目录联接指向它（Windows：`mklink /J`），或直接复制过去。仓库名是 `tiaokongshi`，联接名仍用 `调控师`。
-2. 按 `templates/本机配置.example.md` 写一份 `~/.config/opencode/调控师-本机.md`。本机配置只写机器事实。
+2. 按 `templates/本机配置.example.md` 写一份 `~/.config/opencode/调控师-本机.md`。本机配置只写机器事实，以及你认可的「可信来源」。模型核验和每个模型的表现记在全机共用的 `~/.config/opencode/调控师-模型记录.md`（格式见 `templates/模型记录.md`），由调控师在调研和每批审查后写，不用手填。
 3. 每个项目第一次 `@调控师` 时会做绑定，按 `templates/登记.md` 新建登记文件。项目档案按 `templates/项目档案.md` 写，放在项目仓库以外，可以沿用原位置。
 
 ## 开发和安装分开
@@ -35,7 +35,7 @@ git clone https://github.com/98canon/tiaokongshi.git
 - 方案在各项目自己的 `~/.config/opencode/调控师-项目/<项目标识>/方案/`，项目之间不互读。一份文件一个方案。
 - `references/预置方案/`：占位符示例。Skill 运行时不读，不占上下文。
 - `规则/`：子代理通用守则、审查标准。和预置方案分开，不启用 skill 的项目也可以直接引用。
-- `templates/`：派单骨架、项目档案、`登记.md`、本机配置示例、沙盒规则头。
+- `templates/`：派单骨架、项目档案、`登记.md`、`模型记录.md`、`阶段表.md`、本机配置示例、沙盒规则头。
 - `scripts/`：沙盒类方案用的通用 PowerShell 脚本：`new-sandbox.ps1`、`run-tool.ps1`（内部调用 `run-tool-inner.ps1`）、`check-sandbox.ps1`、`watch-runs.ps1`、`clean-sandbox.ps1`、`copy-back.ps1`。`adapters\agy\` 是 agy 的适配。这些脚本存成带 BOM 的 UTF-8。只有当前方案写明要用时才调用。
 - `依据/`：用户的原始规则原文。运行时以 `SKILL.md` 为准；改规则时和 `SKILL.md` 一起改。
 - `待合入.md`：仓库里已有的这份先留着，启用时不读。新教训写当前项目自己的待合入。
