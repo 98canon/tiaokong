@@ -43,7 +43,7 @@ $env:TIAOKONG_WORKROOT = '<工作目录根>\<项目标识>'
 
 续派同一任务时加 `-FollowUp '<一句提示>'`。要限时再加 `-TimeoutSec`，不写就用脚本的默认。参数里不要放双引号，长内容放进 TASK.md。
 
-3. 核对。有适配目录的，先按该目录的说明.md 做它的核对，再跑通用核对。
+3. 核对。有适配目录的，先按该目录的 README.md 做它的核对，再跑通用核对。
 
 ```powershell
 & '<skill 目录>\scripts\check-sandbox.ps1' -Id <任务>
@@ -55,13 +55,13 @@ $env:TIAOKONG_WORKROOT = '<工作目录根>\<项目标识>'
 & '<skill 目录>\scripts\copy-back.ps1' -Id <任务> -Project <项目目录> -Allowed @(<相对路径>...)
 ```
 
-5. 清理。有适配目录的，先按该目录的说明.md 做它要求的清理，再跑通用清理。
+5. 清理。有适配目录的，先按该目录的 README.md 做它要求的清理，再跑通用清理。
 
 ```powershell
 & '<skill 目录>\scripts\clean-sandbox.ps1' -ArchiveDir <日志归档目录>
 ```
 
-要看过程时，另开一个窗口跑 `watch-runs.ps1`。`-LogDir` 指这个项目的 `logs`。有适配目录时，`-Formatter` 和 `-ProcessName` 按该目录的说明.md 填。
+要看过程时，另开一个窗口跑 `watch-runs.ps1`。`-LogDir` 指这个项目的 `logs`。有适配目录时，`-Formatter` 和 `-ProcessName` 按该目录的 README.md 填。
 
 ```powershell
 & '<skill 目录>\scripts\watch-runs.ps1' -LogDir '<工作目录根>\<项目标识>\logs'
@@ -71,7 +71,7 @@ $env:TIAOKONG_WORKROOT = '<工作目录根>\<项目标识>'
 
 | 执行工具 | 可执行文件 | -ToolArgs | 规则文件名 | 适配目录 |
 |---|---|---|---|---|
-| agy | `$env:LOCALAPPDATA\agy\bin\agy.exe` | `@('-p','{PROMPT}')` | `AGENTS.md` | 有，`scripts\adapters\agy\`。`-p` 即 `--print`。模型、模式等其余参数见该目录的说明.md |
+| agy | `$env:LOCALAPPDATA\agy\bin\agy.exe` | `@('-p','{PROMPT}')` | `AGENTS.md` | 有，`scripts\adapters\agy\`。`-p` 即 `--print`。模型、模式等其余参数见该目录的 README.md |
 | Codex CLI | `codex` | `@('exec','--skip-git-repo-check','{PROMPT}')` | `AGENTS.md` | 无。参数已按 --help 核对，未实际跑过任务 |
 | Claude Code | `claude` | `@('-p','{PROMPT}')` | `CLAUDE.md` | 无。参数已按 --help 核对，未实际跑过任务 |
 

@@ -35,8 +35,8 @@ foreach ($f in $Files) {
     if (Test-Path $s) { Copy-Item $s (Join-Path $dst $f) }
 }
 $utf8 = New-Object Text.UTF8Encoding $false
-$agents = [IO.File]::ReadAllText((Join-Path $PSScriptRoot '..\templates\沙盒规则.md'), [Text.Encoding]::UTF8)
-$agents += "`n`n" + [IO.File]::ReadAllText((Join-Path $PSScriptRoot '..\规则\子代理通用守则.md'), [Text.Encoding]::UTF8)
+$agents = [IO.File]::ReadAllText((Join-Path $PSScriptRoot '..\templates\sandbox-rules.md'), [Text.Encoding]::UTF8)
+$agents += "`n`n" + [IO.File]::ReadAllText((Join-Path $PSScriptRoot '..\rules\subagent-rules.md'), [Text.Encoding]::UTF8)
 if ($RulesFile) { $agents += "`n`n" + [IO.File]::ReadAllText($RulesFile, [Text.Encoding]::UTF8) }
 [IO.File]::WriteAllText("$dst\$RulesName", $agents, $utf8)
 robocopy $dst "$W\sandboxes\$Id.orig" /E /NFL /NDL /NJH /NJS /NP | Out-Null

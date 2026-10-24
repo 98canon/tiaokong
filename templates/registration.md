@@ -1,6 +1,6 @@
 # 调控师登记
 
-（放在 `~/.config/opencode/调控师-登记/<登记名>.md`。一个项目一个。不写进度，不写方案，不写别的项目。写入方法见 SKILL.md「找不到登记」一节，一次写完，不先建空文件。）
+（放在 `~/.config/opencode/tiaokong-registry/<登记名>.md`。一个项目一个。不写进度，不写方案，不写别的项目。写入方法见 `steps/new-binding.md`，一次写完，不先建空文件。）
 
 ## 登记名
 
@@ -21,5 +21,5 @@ $p = '<工作目录>'.TrimEnd('\','/').Replace('\','/').ToLowerInvariant()
 ## 正文
 
 - 项目目录（规范化后）：
-- 项目标识：
+- 项目标识（按 `steps/new-binding.md` 自动算出）：
 - 项目档案路径：
