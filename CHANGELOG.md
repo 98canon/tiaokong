@@ -1,5 +1,11 @@
 # 更新记录
 
+## 2.4.0（2026-10-25）
+- 新增五个 Windows PowerShell 5.1 主控脚本：bind、lock、read-section、stage-commit、self-check。运行主控只调用，不读源码。
+- 绑定、写入门禁、清单读取、最近提交和机械自检接入脚本。未知协议停机，保留用户确认、冲突三选一和不自动抢锁。
+- 长期接口保留在 `docs/control-scripts.md`。运行摘要放在 `SKILL.md` 和分步文件，启用时仍不读 docs。
+- 主控脚本维护支持用户授权后由主会话本地统一测试与复跑，独立测试作者写断言，固定审查者核原始日志。未运行和 unknown 如实报告。
+
 ## 2.3.0（2026-10-24）
 - skill 改名为 `tiaokong`，调用写 `@tiaokong`，安装目录改为 `~/.config/opencode/skills/tiaokong`。OpenCode 要求 skill 名只用小写英文、数字和 `-`，并和目录名一致。GitHub 仓库改名为 `tiaokong`。
 - 仓库文件和本机运行目录改成英文名，文件内容仍用中文。对照表在 `docs/path-map.md`。项目仓库里的 `阶段表.md` 不改名。

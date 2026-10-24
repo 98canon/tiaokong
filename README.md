@@ -12,7 +12,7 @@ git clone https://github.com/98canon/tiaokong.git "$HOME/.config/opencode/skills
 
 1. 克隆到 `~/.config/opencode/skills/tiaokong`，或克隆到任意位置后在那里建一个名为 `tiaokong` 的目录联接（Windows：`mklink /J`）。OpenCode 要求 skill 的目录名和 `SKILL.md` 里的 `name` 一致，只能用小写英文、数字和 `-`。
 2. 按 `templates/local-config.example.md` 写一份 `~/.config/opencode/tiaokong-local.md`。本机配置只写机器事实，以及你认可的「可信来源」。模型核验和每个模型的表现记在全机共用的 `~/.config/opencode/tiaokong-model-record.md`（格式见 `templates/model-record.md`），由调控师在调研和每批审查后写，不用手填。
-3. 每个项目第一次 `@tiaokong` 时会做绑定，按 `templates/registration.md` 新建登记文件。项目标识按项目目录自动算出。项目档案按 `templates/project-profile.md` 写，放在项目仓库以外，可以沿用原位置。
+3. 每个项目第一次 `@tiaokong` 时会做绑定，用户确认档案后由 bind 创建登记，三行格式见 `templates/registration.md`。项目标识按项目目录自动算出。项目档案按 `templates/project-profile.md` 写，放在项目仓库以外，可以沿用原位置。
 
 2.3.0 起不兼容以前的中文路径和旧数据。以前用过的，清掉旧数据后在各项目里重新绑定。改名对照在 `docs/path-map.md`。
 
@@ -41,7 +41,9 @@ git clone https://github.com/98canon/tiaokong.git "$HOME/.config/opencode/skills
 - `templates/`：派单骨架、项目档案、登记、模型记录、阶段表、本机配置示例、沙盒规则头。
 - `references/presets/`：占位符示例。运行时不读，不占上下文。
 - `scripts/`：沙盒类方案用的通用 PowerShell 脚本：`new-sandbox.ps1`、`run-tool.ps1`（内部调用 `run-tool-inner.ps1`）、`check-sandbox.ps1`、`watch-runs.ps1`、`clean-sandbox.ps1`、`copy-back.ps1`。`adapters/agy/` 是 agy 的适配。这些脚本存成带 BOM 的 UTF-8。只有当前方案写明要用时才调用。
+- `scripts/control/`：Windows PowerShell 5.1 主控脚本。bind 管绑定，lock 管标记和哈希门禁，read-section 按清单读取，stage-commit 只维护最近提交列表，self-check 做只读机械自检。运行主控只调用，不读源码。异常或未知协议停下，不手工替代，不自动抢锁。
 - `docs/`：只用于维护 skill 本体，运行时不读。见 `docs/maintenance.md`。
+- `docs/control-scripts.md`：长期保留的五脚本接口，供维护查阅。运行摘要在 `SKILL.md` 和对应分步文件，启用时不读此文档。
 - 方案在各项目自己的 `~/.config/opencode/tiaokong-projects/<项目标识>/plans/`，项目之间不互读。一份文件一个方案。
 
 ## 改动规则
