@@ -1,5 +1,14 @@
 # 更新记录
 
+## 2.1.0（2026-10-24）
+- 去掉特指某台电脑、某个供应商、某个模型的内容。用户原始指令里的具体模型改成「用当前方案里写的执行模型」。
+- 沙盒方向改成通用：面向在 OpenCode 外部单独运行的 agent CLI，例如 agy、Codex CLI、Claude Code。
+- 脚本换成通用的 `new-sandbox`、`run-tool`、`check-sandbox`、`watch-runs`、`clean-sandbox`、`copy-back`。agy 特有的核对、清理、日志格式放进 `scripts/adapters/agy/`。旧的 `run-agy`、`check-run`、`watch-agy`、`clean-agy` 删除。
+- 工作根要有 `.tiaokong-workdir` 标记，不能是盘符根，否则脚本不删不写。`copy-back` 拒绝写出项目目录。agy 按时间窗清理改为默认只列出，要加 `-IncludeTimeWindow` 才删。
+- 沙盒规则头改为 `templates/沙盒规则.md`。
+- `references/预置方案/` 换成省钱、高效、均衡、沙盒四份占位符示例。
+- README 加上开发和安装分开的用法。
+
 ## 2.0.0（2026-10-23）
 - 全局规则分两层：底板和全局默认流程。项目规则只能加严底板，不能放宽。
 - 启用先做绑定：一个项目一个登记文件，登记名由工作目录算出，核对目录一致后才继续。

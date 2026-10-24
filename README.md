@@ -14,6 +14,10 @@ git clone https://github.com/98canon/tiaokongshi.git
 2. 按 `templates/本机配置.example.md` 写一份 `~/.config/opencode/调控师-本机.md`。本机配置只写机器事实。
 3. 每个项目第一次 `@调控师` 时会做绑定，按 `templates/登记.md` 新建登记文件。项目档案按 `templates/项目档案.md` 写，放在项目仓库以外，可以沿用原位置。
 
+## 开发和安装分开
+
+开发和维护在 `<开发克隆>` 里做（改规则、审查、`_archive/` 都在这里）。改完提交推送，这时还不生效。`~/.config/opencode/skills/调控师` 的目录联接指向另一份只用来拉取的克隆 `<安装克隆>`。发布时执行 `git -C <安装克隆> pull --ff-only`。`<安装克隆>` 不要直接改。自检的「版本」一项会看它的 `git status`。不分开也能用，但改到一半的规则会立刻生效。
+
 ## 使用
 在 OpenCode 里写 `@调控师`。进入时先绑定当前项目，旧项目第一次会问一次项目标识和档案路径。
 
@@ -27,10 +31,10 @@ git clone https://github.com/98canon/tiaokongshi.git
 ## 目录
 - `SKILL.md`：主控规则。没有方案时走完整调研；已有方案并写了名字时走紧要调研。
 - 方案在各项目自己的 `~/.config/opencode/调控师-项目/<项目标识>/方案/`，项目之间不互读。一份文件一个方案。
-- `references/预置方案/`：旧例子，留在仓库里。Skill 运行时不读，不占上下文。
+- `references/预置方案/`：占位符示例。Skill 运行时不读，不占上下文。
 - `规则/`：子代理通用守则、审查标准。和预置方案分开，不启用 skill 的项目也可以直接引用。
-- `templates/`：派单骨架、项目档案、`登记.md`、本机配置示例、agy 沙盒规则头。
-- `scripts/`：沙盒类旧例子用的 PowerShell 脚本，存成带 BOM 的 UTF-8。留在仓库里。只有某份当前方案写明要用时才调用。
+- `templates/`：派单骨架、项目档案、`登记.md`、本机配置示例、沙盒规则头。
+- `scripts/`：沙盒类方案用的通用 PowerShell 脚本：`new-sandbox.ps1`、`run-tool.ps1`（内部调用 `run-tool-inner.ps1`）、`check-sandbox.ps1`、`watch-runs.ps1`、`clean-sandbox.ps1`、`copy-back.ps1`。`adapters\agy\` 是 agy 的适配。这些脚本存成带 BOM 的 UTF-8。只有当前方案写明要用时才调用。
 - `依据/`：用户的原始规则原文。运行时以 `SKILL.md` 为准；改规则时和 `SKILL.md` 一起改。
 - `待合入.md`：仓库里已有的这份先留着，启用时不读。新教训写当前项目自己的待合入。
 - `_archive/`：已退役的文件，不入库，默认不读。`_archive/优化方案/` 放针对调控师本身的、已经合入或作废的优化方案。

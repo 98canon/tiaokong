@@ -1,7 +1,11 @@
 ﻿param([Parameter(Mandatory = $true)][string]$Id)
 $W = if ($env:TIAOKONG_WORKROOT) { $env:TIAOKONG_WORKROOT } else { throw 'no work root: set TIAOKONG_WORKROOT or add it to the local config' }  # 工作目录，见本机配置
-# agy 跑完后的机械核对：结果和被拒操作、沙盒外的工具调用、相对 .orig 的改动文件
-$a = "$W\sandboxes\$Id"; $o = "$W\sandboxes\$Id.orig"
+$W = [IO.Path]::GetFullPath($W)
+if ($W -match '^[A-Za-z]:\\$') { throw "work root must not be a drive root: $W" }
+if (-not (Test-Path "$W\.tiaokong-workdir")) { throw "missing .tiaokong-workdir in $W; run new-sandbox.ps1 first to create it" }
+if ($Id -notmatch '^[A-Za-z0-9._-]+$' -or $Id -eq '.' -or $Id -eq '..' -or $Id -match '[\\/:*?"<>|]') { throw "invalid Id: $Id" }
+# agy 适配核对：解析日志里的 result 事件和 transcript，报 RESULT/ERR/RUN/OUTSIDE
+$a = "$W\sandboxes\$Id"
 $results = Get-Content "$W\logs\$Id.log" -Encoding utf8 | Where-Object { $_ -match '"event":"result"' } | ForEach-Object {
     $line = $_
     try { ($line | ConvertFrom-Json -ErrorAction Stop).result }
@@ -21,15 +25,21 @@ foreach ($c in $convs) {
             if ($tc.name -eq 'run_command') { "RUN  " + $tc.args.CommandLine; continue }
             foreach ($prop in $tc.args.PSObject.Properties) {
                 if ($prop.Name -notmatch '(?i)path|file|dir' -or $prop.Name -match '(?i)content') { continue }
-                $p = ([string]$prop.Value).Trim('"') -replace '/', '\' -replace '\\\\', '\'
-                if ($p -match '^[A-Za-z]:\\' -and $p -notlike "$a*") { "OUTSIDE $($tc.name) $($prop.Name)=$p" }
+                $raw = ([string]$prop.Value).Trim('"')
+                # 原始字符串是 UNC 或 // 开头，直接算外部
+                if ($raw -match '^\\\\' -or $raw -match '^//') { "OUTSIDE $($tc.name) $($prop.Name)=$raw"; continue }
+                # 不是绝对路径的，先和沙盒目录拼起来再规范化
+                if ($raw -notmatch '^[A-Za-z]:') {
+                    $raw = Join-Path $a $raw
+                }
+                try {
+                    $pFull = [IO.Path]::GetFullPath($raw)
+                } catch {
+                    "OUTSIDE $($tc.name) $($prop.Name)=$raw (invalid path)"
+                    continue
+                }
+                if (-not $pFull.StartsWith($a + '\', [StringComparison]::OrdinalIgnoreCase)) { "OUTSIDE $($tc.name) $($prop.Name)=$pFull" }
             }
         }
     }
 }
-Get-ChildItem $a -Recurse -File -Force | Where-Object { $_.FullName -notmatch '__pycache__|\\\.ruff_cache\\|\\\.pytest_cache\\|\\TASK\.md$|\\REPORT\.md$|\\AGENTS\.md$' } | ForEach-Object {
-    $rel = $_.FullName.Substring($a.Length); $of = "$o$rel"
-    if (-not (Test-Path $of)) { "NEW  $rel" } elseif ((Get-FileHash $_.FullName).Hash -ne (Get-FileHash $of).Hash) { "MOD  $rel" }
-}
-Get-ChildItem $o -Recurse -File -Force | Where-Object { $_.FullName -notmatch '__pycache__' } | ForEach-Object { $rel = $_.FullName.Substring($o.Length); if (-not (Test-Path "$a$rel")) { "DEL  $rel" } }
-"REPORT=$(Test-Path "$a\REPORT.md")"
